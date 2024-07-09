@@ -10,14 +10,16 @@ class TicTacToeBoard extends Component {
         [' ', ' ', ' '],
         [' ', ' ', ' ']
       ],
-      winner: ''
+      winner: '',
+      clickedCells: {}
     };
   }
 
   handleCellClick = (row, col) => {
     const newBoard = [...this.state.board];
     newBoard[row][col] = 'X';
-    this.setState({ board: newBoard }, () => {
+    const clickedCells = { ...this.state.clickedCells, [`${row}-${col}`]: 'green' };
+    this.setState({ board: newBoard, clickedCells }, () => {
       this.placeRandomO();
       this.checkWin();
     });
@@ -38,7 +40,8 @@ class TicTacToeBoard extends Component {
       const { row, col } = emptyCells[randomIndex];
       const newBoard = [...board];
       newBoard[row][col] = 'O';
-      this.setState({ board: newBoard });
+      const clickedCells = { ...this.state.clickedCells, [`${row}-${col}`]: 'red' };
+      this.setState({ board: newBoard, clickedCells });
     }
   }
 
@@ -76,7 +79,7 @@ class TicTacToeBoard extends Component {
               {row.map((cell, cellIndex) => (
                 <div
                   key={cellIndex}
-                  className="tic-tac-toe-cell"
+                  className={`tic-tac-toe-cell ${this.state.clickedCells[`${rowIndex}-${cellIndex}`] || ''}`}
                   onClick={() => this.handleCellClick(rowIndex, cellIndex)}
                 >
                   {cell}

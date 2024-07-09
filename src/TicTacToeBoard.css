@@ -19,3 +19,12 @@
   height: 100px;
   box-sizing: border-box;
 }
+
+
+.green {
+  background-color: lightgreen;
+}
+
+.red {
+  background-color: lightcoral;
+}
