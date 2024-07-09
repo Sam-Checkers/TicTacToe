@@ -11,21 +11,30 @@ class TicTacToeBoard extends Component {
         [' ', ' ', ' ']
       ],
       winner: '',
-      clickedCells: {}
+      clickedCells: {},
+      gameOver: false
     };
   }
 
   handleCellClick = (row, col) => {
+    if (this.state.gameOver || this.state.board[row][col] !== ' ') {
+      return;
+    }
     const newBoard = [...this.state.board];
     newBoard[row][col] = 'X';
     const clickedCells = { ...this.state.clickedCells, [`${row}-${col}`]: 'green' };
     this.setState({ board: newBoard, clickedCells }, () => {
-      this.placeRandomO();
       this.checkWin();
+      if (!this.state.gameOver) {
+        this.placeRandomO();
+      }
     });
   }
 
   placeRandomO = () => {
+    if (this.state.gameOver) {
+      return;
+    }
     const { board } = this.state;
     const emptyCells = [];
     for (let i = 0; i < board.length; i++) {
@@ -41,7 +50,9 @@ class TicTacToeBoard extends Component {
       const newBoard = [...board];
       newBoard[row][col] = 'O';
       const clickedCells = { ...this.state.clickedCells, [`${row}-${col}`]: 'red' };
-      this.setState({ board: newBoard, clickedCells });
+      this.setState({ board: newBoard, clickedCells }, () => {
+        this.checkWin();
+      });
     }
   }
 
@@ -64,9 +75,9 @@ class TicTacToeBoard extends Component {
     };
 
     if (checkPlayerWin('X')) {
-      this.setState({ winner: 'You Win!' });
+      this.setState({ winner: 'You Win!', gameOver: true });
     } else if (checkPlayerWin('O')) {
-      this.setState({ winner: 'You Lose!' });
+      this.setState({ winner: 'You Lose!', gameOver: true });
     }
   }
 
