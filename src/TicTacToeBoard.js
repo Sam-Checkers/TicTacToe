@@ -13,10 +13,30 @@ class TicTacToeBoard extends Component {
     };
   }
 
+
   handleCellClick = (row, col) => {
     const newBoard = [...this.state.board];
     newBoard[row][col] = 'X';
-    this.setState({ board: newBoard });
+    this.setState({ board: newBoard }, this.placeRandomO);
+  }
+
+  placeRandomO = () => {
+    const { board } = this.state;
+    const emptyCells = [];
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[i].length; j++) {
+        if (board[i][j] === ' ') {
+          emptyCells.push({ row: i, col: j });
+        }
+      }
+    }
+    if (emptyCells.length > 0) {
+      const randomIndex = Math.floor(Math.random() * emptyCells.length);
+      const { row, col } = emptyCells[randomIndex];
+      const newBoard = [...board];
+      newBoard[row][col] = 'O';
+      this.setState({ board: newBoard });
+    }
   }
 
   render() {

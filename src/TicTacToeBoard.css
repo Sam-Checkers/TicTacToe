@@ -15,7 +15,7 @@
   justify-content: center;
   font-size: 48px;
   border: 1px solid #000;
-  width: 100px; /* Set a fixed width for the cells */
-  height: 100px; /* Set a fixed height for the cells */
-  box-sizing: border-box; /* Include padding and border in the total width and height */
+  width: 100px;
+  height: 100px;
+  box-sizing: border-box;
 }
